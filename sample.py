@@ -1,4 +1,5 @@
-import asyncio
+# import asyncio
+import time
 from evdev import InputDevice, categorize, ecodes
 
 source_device = None
@@ -13,12 +14,16 @@ while source_device is None and target_device is None:
     print ("No device - waiting...")
     time.sleep (10)
 
-# Async helper 
-async def helper(source_device, target_device):
-  async for ev in source_device.async_read_loop():
-    print(categorize(ev))
-    target_device.write_event(ev)
+# # Async helper 
+# async def helper(source_device, target_device):
+#   async for ev in source_device.async_read_loop():
+#     print(categorize(ev))
+#     target_device.write_event(ev)
 
-# Loop waiting for keystroke
-loop = asyncio.get_event_loop()
-loop.run_until_complete(helper(source_device, target_device))
+# # Loop waiting for keystroke
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(helper(source_device, target_device))
+
+for ev in source_device.async_read_loop():
+  print(categorize(ev))
+  target_device.write_event(ev)
